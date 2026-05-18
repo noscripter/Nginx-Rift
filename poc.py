@@ -16,7 +16,7 @@ for _b in range(256):
         SAFE.add(_b)
 
 HEAP_BASE = 0x555555659000
-LIBC_BASE = 0x7ffff77ba000
+LIBC_BASE = 0x7ffffefc0000
 SYSTEM_ADDR = LIBC_BASE + 0x50d70
 
 PREREAD_HEAP_OFFSETS = [
